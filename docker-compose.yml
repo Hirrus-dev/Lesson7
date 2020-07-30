@@ -1,0 +1,27 @@
+version: '3.5'
+services:
+  deploy:
+    image: maven:alpine
+    #build:
+      #context: ./maven
+      #dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./boxfuse-sample-java-war-hello:/usr/src/app
+      - ./maven/Deploy.sh:/usr/local/bin/Deploy.sh
+    #entrypoint: /bin/bash
+    entrypoint: /usr/local/bin/Deploy.sh
+  production:
+    #image: tomcat:alpine
+    build:
+      context: ./tomcat8
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    volumes: 
+      - ./boxfuse-sample-java-war-hello/target/:/usr/local/tomcat/webapps/
+    ports:
+      - "80:8080"
+    depends_on: 
+      - deploy
