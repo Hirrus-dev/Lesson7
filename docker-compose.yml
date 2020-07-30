@@ -10,8 +10,8 @@ services:
     volumes:
       - ./boxfuse-sample-java-war-hello:/usr/src/app
       - ./maven/Deploy.sh:/usr/local/bin/Deploy.sh
-    #entrypoint: /bin/bash
-    entrypoint: /usr/local/bin/Deploy.sh
+    entrypoint: mvn package -f /usr/src/app
+    #entrypoint: /usr/local/bin/Deploy.sh
   production:
     #image: tomcat:alpine
     build:
